@@ -1,0 +1,19 @@
+{
+	"name": "canvas-particles",
+	"version": "1.0.0",
+	"repository": "https://github.com/nextgtrgod/canvas-particles.git",
+	"author": "nextgtrgod",
+	"license": "MIT",
+	"scripts": {
+		"start": "yarn snowpack dev",
+		"build": "yarn snowpack build",
+		"deploy": "./deploy.sh"
+	},
+	"devDependencies": {
+		"snowpack": "^2.8.0"
+	},
+	"dependencies": {
+		"postcss-import": "^12.0.1",
+		"postcss-preset-env": "^6.7.0"
+	}
+}

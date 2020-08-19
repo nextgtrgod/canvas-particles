@@ -1,0 +1,50 @@
+@import './src/styles/reset.css';
+
+#scene {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+}
+.repo {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	font-size: 0;
+	width: 48px;
+	height: 48px;
+	user-select: none;
+
+	& img {
+		width: 100%;
+	}
+}
+
+#mic {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 10px;
+	margin: auto;
+	width: 48px;
+	height: 48px;
+	background-image: url(../assets/images/mic.svg);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 50%;
+
+	& canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+body.is-iframe .controls {
+	display: none;
+}
