@@ -9,8 +9,9 @@ let threshold = Math.max(W, H) / 3
 const PI = Math.PI
 
 class Sketch {
-	constructor(canvas) {
+	constructor({ canvas, controls }) {
 		this.canvas = canvas
+		this.controls = controls
 		this.radId = null
 
 		this.init()
@@ -74,20 +75,33 @@ class Sketch {
 			)
 		}
 
-		// dummy dot for github link
-		this.dots.push(
-			new Dot({
-				id: count,
-				type: 'static',
-				x: W - (24 * dpi + 10 * dpi),
-				y: 0 + (24 * dpi + 10 * dpi),
-				r: 24 * dpi,
-				v: {
-					x: 0,
-					y: 0,
-				},
-			})
-		)
+		// add dummy areas from ui
+		if (controls) {
+			this.dots.push(
+				new Dot({
+					id: count,
+					type: 'static',
+					x: W - (24 * dpi + 10 * dpi),
+					y: 0 + (24 * dpi + 10 * dpi),
+					r: 24 * dpi,
+					v: {
+						x: 0,
+						y: 0,
+					},
+				}),
+				new Dot({
+					id: count++,
+					type: 'static',
+					x: W / 2,
+					y: H - (36 * dpi + 10 * dpi),
+					r: 36 * dpi,
+					v: {
+						x: 0,
+						y: 0,
+					},
+				}),
+			)
+		}
 	}
 
 	draw() {
