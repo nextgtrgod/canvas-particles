@@ -1,0 +1,130 @@
+
+body {
+	margin: 0;
+	-webkit-tap-highlight-color: transparent;
+	-ms-scroll-chaining: none;
+	    overscroll-behavior: none;
+}
+
+button {
+	padding: 0;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+a, button {
+	outline: none;
+}
+
+img {
+	pointer-events: none;
+}
+
+body.is-iframe #controls {
+	display: none;
+}
+
+#scene {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+#controls {
+	transition: opacity .2s
+}
+
+#controls.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+.repo {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	font-size: 0;
+	width: 48px;
+	height: 48px;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none
+}
+
+.repo img {
+		width: 100%;
+	}
+
+#mic {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 10px;
+	margin: auto;
+	width: 72px;
+	height: 72px;
+	background-color: #000;
+	border-radius: 50%;
+	overflow: hidden
+}
+
+#mic span {
+		background-image: url('../assets/images/mic-active.svg');
+		background-size: 100%;
+	}
+
+#mic.highlight {
+		-webkit-animation: pulse 2s infinite;
+		        animation: pulse 2s infinite
+	}
+
+#mic.highlight img[href*='mic-active'] {
+			opacity: 0;
+		}
+
+#mic.highlight span {
+			background-image: url('../assets/images/mic.svg');
+		}
+
+#mic canvas,
+	#mic span {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+	}
+
+#mic span {
+		z-index: 1;
+	}
+
+@-webkit-keyframes pulse {
+	0% {
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 70%);
+	}
+	70% {
+		box-shadow: 0 0 0 15px rgba(255, 255, 255, 0%);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0%);
+	}
+}
+
+@keyframes pulse {
+	0% {
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 70%);
+	}
+	70% {
+		box-shadow: 0 0 0 15px rgba(255, 255, 255, 0%);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0%);
+	}
+}
