@@ -1,0 +1,22 @@
+
+body {
+	margin: 0;
+	-webkit-tap-highlight-color: transparent;
+	-ms-scroll-chaining: none;
+	    overscroll-behavior: none;
+}
+
+button {
+	padding: 0;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+a, button {
+	outline: none;
+}
+
+img {
+	pointer-events: none;
+}

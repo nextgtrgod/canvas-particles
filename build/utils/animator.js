@@ -1,0 +1,1 @@
+let i={fs:[],rafId:null,add(s){!this.fs.includes(s)&&this.fs.push(s)},remove(){this.fs=this.fs.filter(s=>s!==rf)},play(s,...t){this.rafId=requestAnimationFrame(()=>this.play()),this.fs.forEach(a=>a(s,...t))},stop(){cancelAnimationFrame(this.rafId)}};export default i;
