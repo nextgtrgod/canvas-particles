@@ -1,8 +1,4 @@
-@import './src/styles/reset.css';
-
-body.is-iframe #controls {
-	display: none;
-}
+@import './reset.css';
 
 #scene {
 	position: fixed;
@@ -11,15 +7,6 @@ body.is-iframe #controls {
 	right: 0;
 	bottom: 0;
 	width: 100%;
-}
-
-#controls {
-	transition: opacity .2s;
-
-	&.hidden {
-		opacity: 0;
-		pointer-events: none;
-	}
 }
 
 .repo {
@@ -36,58 +23,8 @@ body.is-iframe #controls {
 	}
 }
 
-#mic {
-	position: fixed;
-	left: 0;
-	right: 0;
-	bottom: 10px;
-	margin: auto;
-	width: 72px;
-	height: 72px;
-	background-color: #000;
-	border-radius: 50%;
-	overflow: hidden;
-
-	& span {
-		background-image: url('../assets/images/mic-active.svg');
-		background-size: 100%;
-	}
-
-	&.highlight {
-		animation: pulse 2s infinite;
-
-		& img[href*='mic-active'] {
-			opacity: 0;
-		}
-
-		& span {
-			background-image: url('../assets/images/mic.svg');
-		}
-	}
-
-	& canvas,
-	& span {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		width: 100%;
-	}
-
-	& span {
-		z-index: 1;
-	}
-}
-
-@keyframes pulse {
-	0% {
-		box-shadow: 0 0 0 0 rgba(255, 255, 255, 70%);
-	}
-	70% {
-		box-shadow: 0 0 0 15px rgba(255, 255, 255, 0%);
-	}
-	100% {
-		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0%);
+body.is-iframe {
+	& .repo {
+		display: none;
 	}
 }

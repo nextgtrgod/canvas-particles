@@ -1,10 +1,10 @@
 import rnd from '../../utils/random'
 import Dot from './Dot'
 
-let dpi = parseInt((new URL(document.location)).searchParams.get('dpi')) || window.devicePixelRatio
-let W = window.innerWidth * dpi
-let H = window.innerHeight * dpi
-let threshold = Math.max(W, H) / 3
+let dpr = parseInt((new URL(document.location)).searchParams.get('dpr')) || window.devicePixelRatio
+let W = window.innerWidth
+let H = window.innerHeight
+let threshold = Math.max(W, H) / 4
 
 const PI = Math.PI
 
@@ -12,31 +12,31 @@ class Sketch {
 	constructor({ canvas, controls }) {
 		this.canvas = canvas
 		this.controls = controls
-		this.radId = null
+		this.radId = 0
 
 		this.init()
 
-		let resizeTimer = null
+		let resizeTimer = 0
 		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimer)
 			resizeTimer = setTimeout(() => {
 				this.init()
-				this.draw() // safari fix
+				this.draw()
 			}, 150)
 		})
 	}
 
 	init() {
-		W = window.innerWidth * dpi
-		H = window.innerHeight * dpi
+		W = window.innerWidth
+		H = window.innerHeight
 
-		this.threshold = Math.max(W, H) / 3
-		this.amp = 1
+		threshold = Math.max(W, H) / 4
 
-		this.canvas.width = W
-		this.canvas.height = H
+		this.canvas.width = W * dpr
+		this.canvas.height = H * dpr
 
 		this.ctx = this.canvas.getContext('2d', { alpha: false })
+		this.ctx.scale(dpr, dpr)
 
 		this.createDots()
 	}
@@ -47,11 +47,47 @@ class Sketch {
 		let count = 32
 		let speed = 2
 
-		let scale = window.innerWidth >= 600 ? 2 : 1
+		let r = (W > 600)
+			? [6, 9]
+			: [3, 6]
+
+		let range = {
+			x: [0 + r[1], W - r[1]],
+			y: [0 + r[1], H - r[1]],
+			r,
+		}
+
+		// add dummy area from ui
+		if (this.controls) {
+			let offset = {
+				x: 10,
+				y: 10,
+			}
+			let size = 48
+			let R = size / 2
+
+			let dot = new Dot({
+				id: count,
+				type: 'static',
+				x: W - (R + offset.x),
+				y: 0 + (R + offset.y),
+				r: R,
+				v: {
+					x: 0,
+					y: 0,
+				},
+				fill: '#000',
+			})
+
+			range.x[1] -= offset.x + size + range.r[1]
+			range.y[0] = offset.y + size + range.r[1]
+
+			this.dots.push(dot)
+		}
 	
 		for (let i = 0; i < count; i++) {
 	
-			let s = rnd.range(.5, speed) * dpi
+			let s = rnd.range(.5, speed)
 	
 			let limit = PI/12
 			let angle = rnd.from([
@@ -64,42 +100,14 @@ class Sketch {
 			this.dots.push(
 				new Dot({
 					id: i,
-					x: rnd.range(0, W),
-					y: rnd.range(0, H),
-					r: rnd.range(3, 5) * scale * dpi,
+					x: rnd.range(...range.x),
+					y: rnd.range(...range.y),
+					r: rnd.range(...range.r),
 					v: {
 						x: s * Math.cos(angle),
 						y: s * Math.sin(angle),
 					},
 				})
-			)
-		}
-
-		// add dummy areas from ui
-		if (controls) {
-			this.dots.push(
-				new Dot({
-					id: count,
-					type: 'static',
-					x: W - (24 * dpi + 10 * dpi),
-					y: 0 + (24 * dpi + 10 * dpi),
-					r: 24 * dpi,
-					v: {
-						x: 0,
-						y: 0,
-					},
-				}),
-				new Dot({
-					id: count++,
-					type: 'static',
-					x: W / 2,
-					y: H - (36 * dpi + 10 * dpi),
-					r: 36 * dpi,
-					v: {
-						x: 0,
-						y: 0,
-					},
-				}),
 			)
 		}
 	}
@@ -111,7 +119,7 @@ class Sketch {
 	
 		for (let i = 0; i < this.dots.length; i++) {
 	
-			this.dots[i].update(this.ctx, W, H, this.dots, this.threshold * this.amp)
+			this.dots[i].update(this.ctx, W, H, this.dots, threshold)
 	
 			for (let id in this.dots[i].lines) {
 				this.ctx.beginPath()
@@ -119,7 +127,7 @@ class Sketch {
 				this.ctx.lineTo(this.dots[i].lines[id][1].x, this.dots[i].lines[id][1].y)
 	
 				this.ctx.strokeStyle = `rgba(240, 240, 240, ${this.dots[i].lines[id].alpha})`
-				this.ctx.lineWidth = this.dots[i].lines[id].width
+				this.ctx.lineWidth = this.dots[i].lines[id].width / dpr
 				this.ctx.stroke()
 			}
 		}

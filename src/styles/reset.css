@@ -5,14 +5,7 @@ body {
 	overscroll-behavior: none;
 }
 
-button {
-	padding: 0;
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-}
-
-a, button {
+a {
 	outline: none;
 }
 
