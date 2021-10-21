@@ -16,7 +16,7 @@ class Dot {
 		
 		if (this.type === 'static') this.update = this.draw
 
-		this.lines = {}
+		this.lines = new Map()
 
 		this.bounds = {
 			top: 0,
@@ -45,7 +45,7 @@ class Dot {
 	checkDots(dots, threshold) {
 		for (i = 0; i < dots.length; i++) {
 			if (dots[i].id === this.id) continue
-			if (dots[i].lines[this.id]) continue
+			if (dots[i].lines.get(this.id)) continue
 
 			distance = getDistance(this.x, this.y, dots[i].x, dots[i].y)
 
@@ -76,13 +76,13 @@ class Dot {
 
 			// add lines between dots
 			if (distance <= threshold)
-				this.lines[dots[i].id] = {
-					0: { x: this.x, y: this.y },
-					1: { x: dots[i].x, y: dots[i].y },
+				this.lines.set(dots[i].id, {
+					from: [ this.x, this.y ],
+					to: [ dots[i].x, dots[i].y ],
 					alpha: (threshold - distance) / (threshold / 2),
 					width: Math.min((threshold / distance), Math.min(this.r, dots[i].r) / 2)
-				}
-			else delete this.lines[dots[i].id]
+				})
+			else this.lines.delete(dots[i].id)
 		}
 	}
 

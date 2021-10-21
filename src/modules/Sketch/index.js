@@ -121,13 +121,13 @@ class Sketch {
 	
 			this.dots[i].update(this.ctx, W, H, this.dots, threshold)
 	
-			for (let id in this.dots[i].lines) {
+			for (let line of this.dots[i].lines.values()) {
 				this.ctx.beginPath()
-				this.ctx.moveTo(this.dots[i].lines[id][0].x, this.dots[i].lines[id][0].y)
-				this.ctx.lineTo(this.dots[i].lines[id][1].x, this.dots[i].lines[id][1].y)
+				this.ctx.moveTo(...line.from)
+				this.ctx.lineTo(...line.to)
 	
-				this.ctx.strokeStyle = `rgba(240, 240, 240, ${this.dots[i].lines[id].alpha})`
-				this.ctx.lineWidth = this.dots[i].lines[id].width / dpr
+				this.ctx.strokeStyle = `rgba(240, 240, 240, ${line.alpha})`
+				this.ctx.lineWidth = line.width / dpr
 				this.ctx.stroke()
 			}
 		}
